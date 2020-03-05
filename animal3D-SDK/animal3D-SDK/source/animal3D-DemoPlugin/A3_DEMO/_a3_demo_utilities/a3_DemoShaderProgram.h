@@ -64,6 +64,12 @@ extern "C"
 
 		// single uniforms
 		struct {
+			// Mideterm project unifrom names
+			a3i32
+				uAColor,
+				uBColor,
+				uSequinRadius;
+
 			a3i32
 				// common vertex shader uniform handles
 				uMVP,						// model-view-projection transform (object -> clip)
