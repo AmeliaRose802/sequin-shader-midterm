@@ -227,17 +227,17 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 
 	// temp texture pointers
 	const a3_Texture* texture_dm[] = {
-		demoState->tex_stone_dm,
-		demoState->tex_earth_dm,
-		demoState->tex_stone_dm,
-		demoState->tex_mars_dm,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
 		demoState->tex_checker,
 	};
 	const a3_Texture* texture_sm[] = {
-		demoState->tex_stone_dm,
-		demoState->tex_earth_sm,
-		demoState->tex_stone_dm,
-		demoState->tex_mars_sm,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
 		demoState->tex_checker,
 	};
 
@@ -575,7 +575,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 
 	// composite skybox
 	currentDemoProgram = demoState->displaySkybox ? demoState->prog_drawTexture : demoState->prog_drawColorUnif;
-	a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_clouds, skyblue);
+	a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_water, skyblue);
 	a3demo_enableCompositeBlending();
 
 	// draw textured quad with previous pass image on it

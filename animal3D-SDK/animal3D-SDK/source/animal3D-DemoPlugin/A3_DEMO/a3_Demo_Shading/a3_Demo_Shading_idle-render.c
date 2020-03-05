@@ -171,17 +171,17 @@ void a3shading_render(a3_DemoState const* demoState, a3_Demo_Shading const* demo
 
 	// temp texture pointers
 	const a3_Texture* texture_dm[] = {
-		demoState->tex_stone_dm,
-		demoState->tex_earth_dm,
-		demoState->tex_stone_dm,
-		demoState->tex_mars_dm,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
 		demoState->tex_checker,
 	};
 	const a3_Texture* texture_sm[] = {
-		demoState->tex_stone_dm,
-		demoState->tex_earth_sm,
-		demoState->tex_stone_dm,
-		demoState->tex_mars_sm,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
+		demoState->tex_checker,
 		demoState->tex_checker,
 	};
 
@@ -266,7 +266,7 @@ void a3shading_render(a3_DemoState const* demoState, a3_Demo_Shading const* demo
 		// change depth mode to 'always' to ensure box gets drawn and resets depth
 		glDepthFunc(GL_ALWAYS);
 		currentDemoProgram = demoState->displaySkybox ? demoState->prog_drawTexture : demoState->prog_drawColorUnif;
-		a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_clouds, skyblue);
+		a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_water, skyblue);
 		glDepthFunc(GL_LEQUAL);
 		break;
 
@@ -393,7 +393,7 @@ void a3shading_render(a3_DemoState const* demoState, a3_Demo_Shading const* demo
 	case shading_fbo:
 		// composite skybox
 		currentDemoProgram = demoState->displaySkybox ? demoState->prog_drawTexture : demoState->prog_drawColorUnif;
-		a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_clouds, skyblue);
+		a3demo_drawModelTexturedColored_invertModel(modelViewProjectionMat.m, viewProjectionMat.m, demoState->skyboxObject->modelMat.m, a3mat4_identity.m, currentDemoProgram, demoState->draw_skybox, demoState->tex_skybox_water, skyblue);
 		a3demo_enableCompositeBlending();
 
 		// select output to display
