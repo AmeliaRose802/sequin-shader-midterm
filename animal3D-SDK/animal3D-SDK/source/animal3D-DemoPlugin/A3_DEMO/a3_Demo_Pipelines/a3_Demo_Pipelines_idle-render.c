@@ -467,6 +467,24 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 
+		//Create data arrays
+		float aColor[4] = { 1.0, .5, .5, 1.0 };
+		float bColor[4] = { 0.5, 1.0, .5, 1.0 };
+		float mousePos[2] = { 0.0, 0.0 };//Might need to be changed to a function call
+		float sequinRadius[1] = {1.0};
+		float specularA[1] = {.5};
+		float specularB[1] = {.9};
+
+		//Send sequen shader uniforms
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uSequinRadius, 1, sequinRadius);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uASpecular, 1, specularA);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBSpecular, 1, specularB);
+		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos);
+
+
+
 		// individual object requirements: 
 		//	- modelviewprojection
 		//	- modelview

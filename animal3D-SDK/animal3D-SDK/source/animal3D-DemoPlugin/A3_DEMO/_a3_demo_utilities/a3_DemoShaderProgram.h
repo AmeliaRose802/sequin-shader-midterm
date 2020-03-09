@@ -68,7 +68,10 @@ extern "C"
 			a3i32
 				uAColor,
 				uBColor,
-				uSequinRadius;
+				uSequinRadius,
+				uASpecular,
+				uBSpecular,
+				uMousePosition;
 
 			a3i32
 				// common vertex shader uniform handles

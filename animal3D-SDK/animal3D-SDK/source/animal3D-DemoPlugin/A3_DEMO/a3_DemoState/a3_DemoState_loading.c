@@ -461,6 +461,11 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 				drawPhong_multi_deferred_fs[1],
 				drawPhongVolume_fs[1],
 				drawPhongComposite_fs[1];
+			// Midterm
+			a3_DemoStateShader
+				drawSequen[1],
+				drawSparkles[1],
+				drawFinalOutput[1];
 		};
 	} shaderList = {
 		{
@@ -513,6 +518,8 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			{ { { 0 },	"shdr-fs:draw-Phong-multi-def",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawPhong_multi_deferred_fs4x.glsl" } } },
 			{ { { 0 },	"shdr-fs:draw-Phong-volume",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawPhongVolume_fs4x.glsl" } } },
 			{ { { 0 },	"shdr-fs:draw-Phong-composite",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawPhongComposite_fs4x.glsl" } } },
+			//Midterm
+			{ { { 0 },  "shdr-fs:draw-sequen",				a3shader_fragment,	1,{ A3_DEMO_FS"Mideerm/SequinFrag.glsl" } }	},
 		}
 	};
 	a3_DemoStateShader *const shaderListPtr = (a3_DemoStateShader *)(&shaderList), *shaderPtr;
@@ -657,40 +664,40 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 	// 06-deferred programs: 
 	// ****TO-DO: 
 	//	-> 2.1a: uncomment g-buffer program
-	/*
+	
 	// draw lighting data as g-buffers
 	currentDemoProg = demoState->prog_drawLightingData;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-lightingdata");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passLightingData_transform_bias_vs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawLightingData_fs->shader);
-	*/
+	
 	// ****TO-DO: 
 	//	-> 3.1a: uncomment deferred shading composite program
-	/*
+	
 	// draw Phong shading deferred
 	currentDemoProg = demoState->prog_drawPhong_multi_deferred;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Phong-multi-def");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passAtlasTexcoord_transform_vs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawPhong_multi_deferred_fs->shader);
-	*/
+	
 	// ****TO-DO: 
 	//	-> 4.1a: uncomment deferred light volume program
-	/*
+	
 	// draw Phong light volume
 	currentDemoProg = demoState->prog_drawPhongVolume_instanced;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Phong-volume-inst");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passBiasedClipCoord_transform_instanced_vs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawPhongVolume_fs->shader);
-	*/
+	
 	// ****TO-DO: 
 	//	-> 5.1a: uncomment deferred lighting composite program
-	/*
+	
 	// draw composited Phong shading model
 	currentDemoProg = demoState->prog_drawPhongComposite;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Phong-composite");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passAtlasTexcoord_transform_vs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawPhongComposite_fs->shader);
-	*/
+	
 
 
 	// activate a primitive for validation
@@ -734,8 +741,9 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 		a3demo_setUniformDefaultVec4(currentDemoProg, uAColor, a3vec4_w.v);
 		a3demo_setUniformDefaultVec4(currentDemoProg, uBColor, a3vec4_w.v);
 		a3demo_setUniformDefaultFloat(currentDemoProg, uSequinRadius, defaultFloat);
-		//a3demo_setUniformDefaultFloat(currentDemoProg, uASpecular, defaultFloat);
-		//a3demo_setUniformDefaultFloat(currentDemoProg, uBSpecular, defaultFloat);
+		a3demo_setUniformDefaultFloat(currentDemoProg, uASpecular, defaultFloat);
+		a3demo_setUniformDefaultFloat(currentDemoProg, uBSpecular, defaultFloat);
+		a3demo_setUniformDefaultVec2(currentDemoProg, uMousePosition, defaultFloat);
 
 
 

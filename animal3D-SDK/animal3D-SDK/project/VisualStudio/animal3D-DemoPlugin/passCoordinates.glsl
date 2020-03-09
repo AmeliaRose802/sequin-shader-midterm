@@ -2,14 +2,13 @@
 #version 410
 
 
-//layout (location = 0) in vec4 aPosition;
-
 layout (location = 0) in vec4 aPosition;
 
+out vec4 fragCoord;
 
 void main()
 {
 
-gl_Position = aPosition;
+fragCoord = aPosition;
 
 }
