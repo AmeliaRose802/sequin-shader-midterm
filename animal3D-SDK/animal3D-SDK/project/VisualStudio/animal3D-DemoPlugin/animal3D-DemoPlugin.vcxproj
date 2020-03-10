@@ -240,22 +240,22 @@
     <None Include="..\..\..\resource\glsl\4x\fs\06-deferred\drawPhong_multi_deferred_fs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\fs\drawColorAttrib_fs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\fs\drawColorUnif_fs4x.glsl" />
+    <None Include="..\..\..\resource\glsl\4x\fs\Midterm\FinalOutput.glsl" />
+    <None Include="..\..\..\resource\glsl\4x\fs\Midterm\SequinFrag.glsl" />
+    <None Include="..\..\..\resource\glsl\4x\fs\Midterm\SparklesPostProc.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\02-shading\passLightingData_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\02-shading\passTexcoord_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\04-multipass\passLightingData_shadowCoord_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\06-deferred\passAtlasTexcoord_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\06-deferred\passBiasedClipCoord_transform_instanced_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\06-deferred\passLightingData_transform_bias_vs4x.glsl" />
+    <None Include="..\..\..\resource\glsl\4x\vs\Midterm\passCoordinates.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\passColor_transform_instanced_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\passColor_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\passthru_transform_instanced_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\passthru_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\passthru_vs4x.glsl" />
     <None Include="..\..\..\source\animal3D-DemoPlugin\A3_DEMO\_a3_demo_utilities\_inl\a3_DemoRenderUtils.inl" />
-    <None Include="FinalOutput.glsl" />
-    <None Include="passCoordinates.glsl" />
-    <None Include="SequinFrag.glsl" />
-    <None Include="SparklesPostProc.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

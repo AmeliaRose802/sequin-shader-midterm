@@ -472,8 +472,8 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		float bColor[4] = { 0.5, 1.0, .5, 1.0 };
 		float mousePos[2] = { 0.0, 0.0 };//Might need to be changed to a function call
 		float sequinRadius[1] = {1.0};
-		float specularA[1] = {.5};
-		float specularB[1] = {.9};
+		float specularA[1] = {.5f};
+		float specularB[1] = {.9f};
 
 		//Send sequen shader uniforms
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor);
