@@ -59,7 +59,7 @@ extern "C"
 	{
 		curves_renderPhong,			// Phong shading
 
-		curves_render_max
+		curves_render_max = 3
 	};
 
 	// final display modes
@@ -86,7 +86,7 @@ extern "C"
 	{
 		curves_forward,				// forward lighting pipeline
 
-		curves_pipeline_max
+		curves_pipeline_max = 3
 	};
 
 	// render passes
