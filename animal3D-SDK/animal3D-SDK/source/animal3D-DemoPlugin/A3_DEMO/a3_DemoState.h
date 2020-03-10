@@ -338,6 +338,10 @@ extern "C"
 					prog_drawPhong_multi_deferred[1],			// draw Phong shading model, multiple lights, in deferred pass
 					prog_drawPhongVolume_instanced[1],			// draw Phong light volume (point light)
 					prog_drawPhongComposite[1];					// draw Phong shading model by compositing light volumes
+				a3_DemoStateShaderProgram
+					prog_drawSequenFrag[1],
+					prog_drawSparkelsPostProc[1],
+					prog_drawFinalOutput[1];
 			};
 		};
 

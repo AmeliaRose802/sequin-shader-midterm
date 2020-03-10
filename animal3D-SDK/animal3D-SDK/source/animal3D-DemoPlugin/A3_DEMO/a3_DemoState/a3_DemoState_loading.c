@@ -426,6 +426,8 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 				passAtlasTexcoord_transform_vs[1],
 				passLightingData_transform_bias_vs[1],
 				passBiasedClipCoord_transform_instanced_vs[1];
+			a3_DemoStateShader
+				passCoordinates[1];
 
 			// fragment shaders
 			// base
@@ -489,6 +491,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			{ { { 0 },	"shdr-vs:pass-atlas-tex-trans",		a3shader_vertex  ,	1,{ A3_DEMO_VS"06-deferred/e/passAtlasTexcoord_transform_vs4x.glsl" } } },
 			{ { { 0 },	"shdr-vs:pass-light-trans-bias",	a3shader_vertex  ,	1,{ A3_DEMO_VS"06-deferred/e/passLightingData_transform_bias_vs4x.glsl" } } },
 			{ { { 0 },	"shdr-vs:pass-biasedclip-inst",		a3shader_vertex  ,	1,{ A3_DEMO_VS"06-deferred/e/passBiasedClipCoord_transform_instanced_vs4x.glsl" } } },
+			{ { { 0 },	"shdr-vs:passCoordinates",			a3shader_vertex  ,	1,{ A3_DEMO_VS"Midetrm/passCoordinate.glsl" } } },
 
 			// fs
 			// base
@@ -520,6 +523,8 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			{ { { 0 },	"shdr-fs:draw-Phong-composite",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawPhongComposite_fs4x.glsl" } } },
 			//Midterm
 			{ { { 0 },  "shdr-fs:draw-sequen",				a3shader_fragment,	1,{ A3_DEMO_FS"Mideerm/SequinFrag.glsl" } }	},
+			{ { { 0 },  "shdr-fs:darw-final-output",		a3shader_fragment,	1,{ A3_DEMO_FS"Mideerm/FinalOutput.glsl" } } },
+			{ { { 0 },  "shdr-fs:draw-sparkles",			a3shader_fragment,	1,{ A3_DEMO_FS"Mideerm/SparklesPostProc.glsl" } }	},
 		}
 	};
 	a3_DemoStateShader *const shaderListPtr = (a3_DemoStateShader *)(&shaderList), *shaderPtr;
@@ -699,6 +704,21 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawPhongComposite_fs->shader);
 	
 
+	//Midterm programs
+	currentDemoProg = demoState->prog_drawSequenFrag;
+	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-fragment");
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSequen->shader);
+
+	currentDemoProg = demoState->prog_drawSequenFrag;
+	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-post");
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSparkles->shader);
+
+	currentDemoProg = demoState->prog_drawSequenFrag;
+	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-final");
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawFinalOutput->shader);
 
 	// activate a primitive for validation
 	// makes sure the specified geometry can draw using programs

@@ -470,7 +470,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		//Create data arrays
 		float aColor[4] = { 1.0, .5, .5, 1.0 };
 		float bColor[4] = { 0.5, 1.0, .5, 1.0 };
-		float mousePos[2] = { 0.0, 0.0 };//Might need to be changed to a function call
+		float mousePos[2] = {(float)demoState->mouse->x, (float)demoState->mouse->y};//Using existing mouse object and getting its position
 		float sequinRadius[1] = {1.0};
 		float specularA[1] = {.5f};
 		float specularB[1] = {.9f};
