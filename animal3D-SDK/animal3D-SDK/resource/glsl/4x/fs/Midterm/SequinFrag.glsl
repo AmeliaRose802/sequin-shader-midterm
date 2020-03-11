@@ -1,17 +1,14 @@
 #version 410
 
-uniform vec4 uAColor;
-uniform vec4 uBColor;
-uniform float uSequinRadius;
-uniform float uASpecular;
-uniform float uBSpecular;
 
-in vec4 fragCoord;
-out vec4 fragColor;
+uniform sampler2D uImage0;
+
+out vec4 rtFragColor;
+in vec4 coord;
+in vec4 passTexcoord;
 
 void main()
 {
-
-fragColor = vec4(1.0, 0.0, 0.0, 1.0);
-
+	
+	rtFragColor = passTexcoord;
 }

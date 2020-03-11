@@ -705,6 +705,9 @@ void a3curves_render(a3_DemoState const* demoState, a3_Demo_Curves const* demoMo
 			a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSize, 1, pixelSize.v);	// use as actual pixel size
 			a3framebufferBindDepthTexture(currentReadFBO, a3tex_unit01);
 			a3framebufferBindColorTexture(currentReadFBO, a3tex_unit02, curves_scene_normal);
+
+			const a3f32 sequinRadius[1] = { 1.0f };
+			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uSequinRadius, 1, sequinRadius);
 			break;
 		}
 
