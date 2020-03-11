@@ -476,8 +476,6 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 
-		
-
 		//Send sequen shader uniforms
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor->v);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor->v);
@@ -485,6 +483,8 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uASpecular, 1, specularA);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
 		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
+
+		//Send texture uniform for sequen data
 
 
 

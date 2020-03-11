@@ -68,7 +68,7 @@ extern "C"
 			a3i32
 				uAColor,
 				uBColor,
-				uSequinRadius,
+				uSequinNum,
 				uASpecular,
 				uBSpecular,
 				uMousePosition;

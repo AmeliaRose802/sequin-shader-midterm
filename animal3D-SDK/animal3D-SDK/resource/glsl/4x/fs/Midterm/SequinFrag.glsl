@@ -13,7 +13,7 @@ uniform vec4 uLightCol;
 out vec4 rtFragColor;
 in vec4 coord;
 
-vec2 numSequines = vec2(16.0, 10.0);
+vec2 numSequines = vec2(24.0, 24.0);
 
 vec2 getCenterOffset(){
     return (1.0 / (numSequines * 2.0));
