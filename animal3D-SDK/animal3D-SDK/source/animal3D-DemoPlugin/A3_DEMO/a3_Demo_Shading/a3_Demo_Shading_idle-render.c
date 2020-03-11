@@ -323,10 +323,8 @@ void a3shading_render(a3_DemoState const* demoState, a3_Demo_Shading const* demo
 			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSz, demoState->forwardLightCount, lightSz);
 			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSzInvSq, demoState->forwardLightCount, lightSzInvSq);
 			a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
-			//a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
+			a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 
-			const a3f32 sequinRadius[1] = { 1.0f };
-			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uSequinRadius, 1, sequinRadius);
 
 
 			a3textureActivate(demoState->tex_ramp_dm, a3tex_unit04);

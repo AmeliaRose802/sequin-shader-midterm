@@ -4,7 +4,7 @@
 uniform sampler2D uImage0;
 uniform vec4 uAColor;
 uniform vec4 uBColor;
-uniform float uSequinRadius;
+uniform vec2 uSequinNum;
 uniform float uASpecular;
 uniform float uBSpecular;
 uniform vec4 uLightCol;

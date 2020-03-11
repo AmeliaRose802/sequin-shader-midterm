@@ -796,7 +796,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 		//Midterm Sequin Project
 		a3demo_setUniformDefaultVec4(currentDemoProg, uAColor, a3vec4_w.v);
 		a3demo_setUniformDefaultVec4(currentDemoProg, uBColor, a3vec4_w.v);
-		a3demo_setUniformDefaultFloat(currentDemoProg, uSequinRadius, defaultFloat);
+		a3demo_setUniformDefaultVec2(currentDemoProg, uSequinNum, defaultFloat);
 		a3demo_setUniformDefaultFloat(currentDemoProg, uASpecular, defaultFloat);
 		a3demo_setUniformDefaultFloat(currentDemoProg, uBSpecular, defaultFloat);
 		a3demo_setUniformDefaultVec2(currentDemoProg, uMousePosition, defaultFloat);

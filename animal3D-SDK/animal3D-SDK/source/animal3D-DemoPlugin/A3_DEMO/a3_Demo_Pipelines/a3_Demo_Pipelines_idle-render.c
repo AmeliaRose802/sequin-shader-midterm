@@ -326,7 +326,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 
 	
 	a3vec2 mousePos [1] = { (float)demoState->mouse->x, (float)demoState->mouse->y };//Using existing mouse object and getting its position
-	a3f32 sequinRadius[1] = { 1.0f };
+	a3vec2 sequinNum[1] = { 30.0f, 30.0f };
 	a3f32 specularA[1] = { .5f };
 	a3f32 specularB[1] = { .9f };
 
@@ -479,7 +479,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		//Send sequen shader uniforms
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor->v);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor->v);
-		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uSequinRadius, 1, sequinRadius);
+		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSequinNum, 1, sequinNum->v);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uASpecular, 1, specularA);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
 		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
