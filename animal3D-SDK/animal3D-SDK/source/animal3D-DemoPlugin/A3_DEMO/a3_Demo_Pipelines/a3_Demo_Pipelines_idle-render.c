@@ -320,6 +320,14 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 	a3vec4 lightPos[demoStateMaxCount_lightObject];
 	a3vec4 lightCol[demoStateMaxCount_lightObject];
 
+	//Midterm stuff
+	//Create data arrays
+	a3f32 aColor[4] = { 1.0, .5, .5, 1.0 };
+	a3f32 bColor[4] = { 0.5, 1.0, .5, 1.0 };
+	a3f32 mousePos[2] = { (a3f32)demoState->mouse->x, (a3f32)demoState->mouse->y };//Using existing mouse object and getting its position
+	a3f32 sequinRadius[1] = { 1.0 };
+	a3f32 specularA[1] = { .5f };
+	a3f32 specularB[1] = { .9f };
 
 	// pixel size and effect axis
 	a3vec2 pixelSize = a3vec2_one;
@@ -467,14 +475,6 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 
-		//Create data arrays
-		float aColor[4] = { 1.0, .5, .5, 1.0 };
-		float bColor[4] = { 0.5, 1.0, .5, 1.0 };
-		float mousePos[2] = {(float)demoState->mouse->x, (float)demoState->mouse->y};//Using existing mouse object and getting its position
-		float sequinRadius[1] = {1.0};
-		float specularA[1] = {.5f};
-		float specularB[1] = {.9f};
-
 		//Send sequen shader uniforms
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor);
@@ -482,6 +482,8 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uASpecular, 1, specularA);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBSpecular, 1, specularB);
 		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos);
+
+		//Send texture uniform for sequen data
 
 
 

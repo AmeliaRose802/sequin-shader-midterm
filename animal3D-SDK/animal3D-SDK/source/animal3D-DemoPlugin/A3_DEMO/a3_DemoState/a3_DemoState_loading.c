@@ -728,20 +728,24 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passthru_vs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawCurveSegment_gs->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawColorAttrib_fs->shader);
+	
 	//Midterm programs
 	currentDemoProg = demoState->prog_drawSequenFrag;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-fragment");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSequen->shader);
 
 	currentDemoProg = demoState->prog_drawSparkelsPostProc;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-post");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSparkles->shader);
 
 	currentDemoProg = demoState->prog_drawFinalOutput;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-final");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
+	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawFinalOutput->shader);
 
 	// activate a primitive for validation
@@ -770,6 +774,14 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 		a3shaderRelease(shaderPtr->shader);
 	}
 
+	//Midterm stuff
+	//Create data arrays
+	a3f32 aColor[4] = { 1.0, .5, .5, 1.0 };
+	a3f32 bColor[4] = { 0.5, 1.0, .5, 1.0 };
+	a3f32 mousePos[2] = { (a3f32)demoState->mouse->x, (a3f32)demoState->mouse->y };//Using existing mouse object and getting its position
+	a3f32 sequinRadius[1] = { 1.0 };
+	a3f32 specularA[1] = { .5f };
+	a3f32 specularB[1] = { .9f };
 
 	// prepare uniforms algorithmically instead of manually for all programs
 	// get uniform and uniform block locations and set default values for all 
@@ -782,12 +794,12 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 		a3shaderProgramActivate(currentDemoProg->program);
 
 		//Midterm Sequin Project
-		a3demo_setUniformDefaultVec4(currentDemoProg, uAColor, a3vec4_w.v);
-		a3demo_setUniformDefaultVec4(currentDemoProg, uBColor, a3vec4_w.v);
-		a3demo_setUniformDefaultFloat(currentDemoProg, uSequinRadius, defaultFloat);
-		a3demo_setUniformDefaultFloat(currentDemoProg, uASpecular, defaultFloat);
-		a3demo_setUniformDefaultFloat(currentDemoProg, uBSpecular, defaultFloat);
-		a3demo_setUniformDefaultVec2(currentDemoProg, uMousePosition, defaultFloat);
+		a3demo_setUniformDefaultVec4(currentDemoProg, uAColor, aColor);
+		a3demo_setUniformDefaultVec4(currentDemoProg, uBColor, bColor);
+		a3demo_setUniformDefaultFloat(currentDemoProg, uSequinRadius, sequinRadius);
+		a3demo_setUniformDefaultFloat(currentDemoProg, uASpecular, specularA);
+		a3demo_setUniformDefaultFloat(currentDemoProg, uBSpecular, specularB);
+		a3demo_setUniformDefaultVec2(currentDemoProg, uMousePosition, mousePos);
 
 
 
