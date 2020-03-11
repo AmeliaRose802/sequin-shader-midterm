@@ -257,7 +257,7 @@ void a3curves_render(a3_DemoState const* demoState, a3_Demo_Curves const* demoMo
 		{
 			//demoState->prog_drawPhong_multi_forward_mrt,
 			demoState->prog_drawSequenFrag,
-			demoState->prog_drawFinalOutput,
+			//demoState->prog_drawFinalOutput,
 			//demoState->prog_drawSparkelsPostProc,
 		},
 	};

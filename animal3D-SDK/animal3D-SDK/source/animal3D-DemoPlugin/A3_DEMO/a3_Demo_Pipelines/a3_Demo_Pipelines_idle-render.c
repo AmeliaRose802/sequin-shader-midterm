@@ -253,7 +253,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 	// forward pipeline shader programs
 	const a3_DemoStateShaderProgram* renderProgram[pipelines_pipeline_max][pipelines_render_max] = {
 		{
-			demoState->prog_drawPhong_multi_mrt,
+			demoState->prog_drawSequenFrag,
 			demoState->prog_drawPhong_multi_shadow_mrt,
 		}, {
 			demoState->prog_drawLightingData,
@@ -321,9 +321,11 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 	a3vec4 lightCol[demoStateMaxCount_lightObject];
 
 	//Create data arrays
-	a3vec4 aColor = { 1.0, .5, .5, 1.0 };
-	a3vec4 bColor = { 0.5, 1.0, .5, 1.0 };
-	a3vec2 mousePos = { (float)demoState->mouse->x, (float)demoState->mouse->y };//Using existing mouse object and getting its position
+	a3vec4 aColor[1] = { 1.0, .5, .5, 1.0 };
+	a3vec4 bColor[1] = { 0.5, 1.0, .5, 1.0 };
+
+	
+	a3vec2 mousePos [1] = { (float)demoState->mouse->x, (float)demoState->mouse->y };//Using existing mouse object and getting its position
 	a3f32 sequinRadius[1] = { 1.0f };
 	a3f32 specularA[1] = { .5f };
 	a3f32 specularB[1] = { .9f };
@@ -472,17 +474,17 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSz, demoState->forwardLightCount, lightSz);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSzInvSq, demoState->forwardLightCount, lightSzInvSq);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
-		//a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 
 		
 
 		//Send sequen shader uniforms
-		//a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor);
-		//a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor->v);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor->v);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uSequinRadius, 1, sequinRadius);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uASpecular, 1, specularA);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
-		//a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos);
+		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
 
 
 
@@ -621,7 +623,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSz, demoState->forwardLightCount, lightSz);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uLightSzInvSq, demoState->forwardLightCount, lightSzInvSq);
 		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightPos, demoState->forwardLightCount, lightPos->v);
-		//a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
+		a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uLightCol, demoState->forwardLightCount, lightCol->v);
 		break;
 
 	case pipelines_deferred_lighting:
