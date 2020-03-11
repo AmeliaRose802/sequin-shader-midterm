@@ -859,11 +859,6 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
 			a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
 
-			//	a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uColor, 1, a3vec4_w.v);	// use as line color
-			//	a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uAxis, 1, a3vec2_one.v);	// use as line thickness
-			//	a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSize, 1, pixelSize.v);	// use as actual pixel size
-
-
 			a3framebufferBindDepthTexture(currentReadFBO, a3tex_unit01);
 			a3framebufferBindColorTexture(currentReadFBO, a3tex_unit02, pipelines_scene_normal);
 
