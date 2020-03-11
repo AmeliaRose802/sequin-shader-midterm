@@ -507,7 +507,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			{ { { 0 },	"shdr-vs:pass-biasedclip-inst",		a3shader_vertex  ,	1,{ A3_DEMO_VS"06-deferred/e/passBiasedClipCoord_transform_instanced_vs4x.glsl" } } },
 			// 07-curves
 			{ { { 0 },	"shdr-vs:pass-tangent-trans-inst",	a3shader_vertex  ,	1,{ A3_DEMO_VS"07-curves/passTangentBasis_transform_instanced_vs4x.glsl" } } },
-			{ { { 0 },	"shdr-vs:passCoordinates",			a3shader_vertex  ,	1,{ A3_DEMO_VS"Midetrm/passCoordinate.glsl" } } },
+			{ { { 0 },	"shdr-vs:passCoordinates",			a3shader_vertex  ,	1,{ A3_DEMO_VS"Midterm/passCoordinates.glsl" } } },
 
 			// gs
 			// 07-curves
@@ -793,6 +793,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 		currentDemoProg = demoState->shaderProgram + i;
 		a3shaderProgramActivate(currentDemoProg->program);
 
+		const a3f32 test[] = { 0.5f };
 		//Midterm Sequin Project
 		a3demo_setUniformDefaultVec4(currentDemoProg, uAColor, aColor);
 		a3demo_setUniformDefaultVec4(currentDemoProg, uBColor, bColor);
