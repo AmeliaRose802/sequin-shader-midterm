@@ -546,7 +546,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			{ { { 0 },	"shdr-fs:draw-Phong-mul-fwd-mrt",	a3shader_fragment,	1,{ A3_DEMO_FS"07-curves/drawPhong_multi_forward_mrt_fs4x.glsl" } } },
 			//Midterm
 			{ { { 0 },  "shdr-fs:draw-sequen",				a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/SequinFrag.glsl" } }	},
-			{ { { 0 },  "shdr-fs:darw-final-output",		a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/FinalOutput.glsl" } } },
+			{ { { 0 },  "shdr-fs:draw-final-output",		a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/FinalOutput.glsl" } } },
 			{ { { 0 },  "shdr-fs:draw-sparkles",			a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/SparklesPostProc.glsl" } }	},
 		}
 	};
@@ -733,19 +733,16 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 	currentDemoProg = demoState->prog_drawSequenFrag;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-fragment");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
-	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSequen->shader);
 
 	currentDemoProg = demoState->prog_drawSparkelsPostProc;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-post");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
-	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSparkles->shader);
 
 	currentDemoProg = demoState->prog_drawFinalOutput;
 	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-final");
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
-	//Geometry shader goes here
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawFinalOutput->shader);
 
 	// activate a primitive for validation

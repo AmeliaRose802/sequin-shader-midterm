@@ -38,7 +38,7 @@ typedef struct a3_DemoState a3_DemoState;
 
 void a3pipelines_init(a3_DemoState const* demoState, a3_Demo_Pipelines* demoMode)
 {
-	demoMode->render = pipelines_renderPhong;
+	demoMode->render = pipelines_renderSequines;
 	demoMode->display = pipelines_displayTexture;
 	demoMode->activeCamera = pipelines_cameraSceneViewer;
 

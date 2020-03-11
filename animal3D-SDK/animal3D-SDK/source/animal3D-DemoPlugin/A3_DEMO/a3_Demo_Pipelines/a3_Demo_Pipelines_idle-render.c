@@ -60,14 +60,15 @@ void a3pipelines_render_controls(a3_DemoState const* demoState, a3_Demo_Pipeline
 
 	// forward pipeline names
 	a3byte const* renderProgramName[pipelines_render_max] = {
-		"Phong shading",
-		"Phong shading with shadow mapping",
+		"Sequine Shapes",
 	};
 
 	// forward display names
 	a3byte const* displayProgramName[pipelines_display_max] = {
 		"Texture",
+		"Circles with Input",
 		"Texture with outlines",
+		
 	};
 
 	// active camera name
@@ -254,20 +255,22 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 	const a3_DemoStateShaderProgram* renderProgram[pipelines_pipeline_max][pipelines_render_max] = {
 		{
 			demoState->prog_drawSequenFrag,
-			demoState->prog_drawPhong_multi_shadow_mrt,
+		//	demoState->prog_drawFinalOutput,
 		}, {
 			demoState->prog_drawLightingData,
-			demoState->prog_drawLightingData,
+		//	demoState->prog_drawLightingData,
 		}, {
 			demoState->prog_drawLightingData,
-			demoState->prog_drawLightingData,
+		//	demoState->prog_drawLightingData,
 		},
 	};
 
 	// display shader programs
 	const a3_DemoStateShaderProgram* displayProgram[pipelines_display_max] = {
 		demoState->prog_drawTexture,
+		demoState->prog_drawFinalOutput,
 		demoState->prog_drawTexture_outline,
+		
 	};
 
 	// framebuffers to which to write based on pipeline mode
@@ -483,9 +486,6 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uASpecular, 1, specularA);
 		a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
 		a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
-
-		//Send texture uniform for sequen data
-
 
 
 		// individual object requirements: 
@@ -846,6 +846,29 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		case pipelines_displayTexture:
 			break;
 
+
+		case pipelines_displayWithInput:
+			currentReadFBO = demoState->fbo_scene_c16d24s8_mrt;
+			a3real2Set(pixelSize.v, a3recip((a3real)currentReadFBO->frameWidth), a3recip((a3real)currentReadFBO->frameHeight));
+
+			//Send sequen shader uniforms
+			a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uAColor, 1, aColor->v);
+			a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uBColor, 1, bColor->v);
+			a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSequinNum, 1, sequinNum->v);
+			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uASpecular, 1, specularA);
+			a3shaderUniformSendFloat(a3unif_single, currentDemoProgram->uBSpecular, 1, specularB);
+			a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uMousePosition, 1, mousePos->v);
+
+			//	a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uColor, 1, a3vec4_w.v);	// use as line color
+			//	a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uAxis, 1, a3vec2_one.v);	// use as line thickness
+			//	a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSize, 1, pixelSize.v);	// use as actual pixel size
+
+
+			a3framebufferBindDepthTexture(currentReadFBO, a3tex_unit01);
+			a3framebufferBindColorTexture(currentReadFBO, a3tex_unit02, pipelines_scene_normal);
+
+			break;
+
 			// display with outlines
 			// need to activate more textures and send params (e.g. color, pixel size/axis)
 		case pipelines_displayOutline:
@@ -856,7 +879,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 			a3shaderUniformSendFloat(a3unif_vec2, currentDemoProgram->uSize, 1, pixelSize.v);	// use as actual pixel size
 			a3framebufferBindDepthTexture(currentReadFBO, a3tex_unit01);
 			a3framebufferBindColorTexture(currentReadFBO, a3tex_unit02, pipelines_scene_normal);
-			break;
+
 		}
 
 		// done

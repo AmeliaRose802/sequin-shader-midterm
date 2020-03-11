@@ -56,8 +56,7 @@ extern "C"
 	// scene object rendering program names
 	enum a3_Demo_Pipelines_RenderProgramName
 	{
-		pipelines_renderPhong,			// Phong shading
-		pipelines_renderPhongShadow,	// Phong shading with shadows
+		pipelines_renderSequines,			// Phong shading
 
 		pipelines_render_max
 	};
@@ -67,6 +66,7 @@ extern "C"
 	{
 		pipelines_displayTexture,		// display simple texture
 		pipelines_displayOutline,		// display texture with outlines
+		pipelines_displayWithInput,
 
 		pipelines_display_max
 	};
