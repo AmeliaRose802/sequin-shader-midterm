@@ -155,8 +155,8 @@ void a3pipelines_render_controls(a3_DemoState const* demoState, a3_Demo_Pipeline
 	a3_Demo_Pipelines_TargetName const targetCount = demoMode->targetCount[pass];
 
 	// demo modes
-	/*a3textDraw(demoState->text, textAlign, textOffset += textOffsetDelta, textDepth, col.r, col.g, col.b, col.a,
-		"    Pipeline (%u / %u) ('[' | ']'): %s", pipeline + 1, pipelines_pipeline_max, pipelineText[pipeline]);*/
+	//a3textDraw(demoState->text, textAlign, textOffset += textOffsetDelta, textDepth, col.r, col.g, col.b, col.a,
+	//	"    Pipeline (%u / %u) ('[' | ']'): %s", pipeline + 1, pipelines_pipeline_max, pipelineText[pipeline]);
 	a3textDraw(demoState->text, textAlign, textOffset += textOffsetDelta, textDepth, col.r, col.g, col.b, col.a,
 		"    Display pass (%u / %u) ('(' | ')'): %s", pass + 1, pipelines_pass_max, passName[pass]);
 	/*a3textDraw(demoState->text, textAlign, textOffset += textOffsetDelta, textDepth, col.r, col.g, col.b, col.a,

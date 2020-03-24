@@ -54,7 +54,7 @@ void a3pipelinesCB_input_keyCharPress(a3_DemoState const* demoState, a3_Demo_Pip
 		a3demoCtrlCasesLoop(demoMode->activeCamera, pipelines_camera_max, 'v', 'c');
 
 		// toggle pipeline mode
-		a3demoCtrlCasesLoop(demoMode->pipeline, pipelines_pipeline_max, ']', '[');
+		//a3demoCtrlCasesLoop(demoMode->pipeline, pipelines_pipeline_max, ']', '[');
 
 		// toggle target
 		a3demoCtrlCasesLoop(demoMode->targetIndex[demoMode->pass], demoMode->targetCount[demoMode->pass], '}', '{');
