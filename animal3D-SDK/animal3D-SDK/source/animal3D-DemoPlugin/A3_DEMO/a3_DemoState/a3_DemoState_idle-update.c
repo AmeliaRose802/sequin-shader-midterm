@@ -221,14 +221,16 @@ void a3demo_update(a3_DemoState *demoState, a3f64 dt)
 	// update for specific mode
 	switch (demoState->demoMode)
 	{
+		/*
 	case demoState_shading:
-		break;
+		break;*/
 	case demoState_pipelines:
 		a3pipelines_update(demoState, demoState->demoMode_pipelines, dt);
 		break;
+		/*
 	case demoState_curves:
 		a3curves_update(demoState, demoState->demoMode_curves, dt);
-		break;
+		break;*/
 	}
 }
 

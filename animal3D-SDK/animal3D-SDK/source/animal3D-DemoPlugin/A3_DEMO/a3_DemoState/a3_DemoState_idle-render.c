@@ -62,9 +62,9 @@ void a3demo_render_controls(a3_DemoState const* demoState,
 {
 	// display mode info
 	a3byte const* modeText[demoState_mode_max] = {
-		"LIGHTING & SHADING",
-		"LIGHTING PIPELINES",
-		"CURVES & INTERPOLATION",
+//		"LIGHTING & SHADING",
+		"MIDTERM PROJECT",
+//		"CURVES & INTERPOLATION",
 	};
 
 	// text color
@@ -80,15 +80,18 @@ void a3demo_render_controls(a3_DemoState const* demoState,
 	// draw controls for specific modes
 	switch (demoMode)
 	{
+
+	/*
 	case demoState_shading:
 		a3shading_render_controls(demoState, demoState->demoMode_shading, textAlign, textDepth, textOffsetDelta, textOffset);
-		break;
+		break;*/
 	case demoState_pipelines:
 		a3pipelines_render_controls(demoState, demoState->demoMode_pipelines, textAlign, textDepth, textOffsetDelta, textOffset);
 		break;
+	/*
 	case demoState_curves:
 		a3curves_render_controls(demoState, demoState->demoMode_curves, textAlign, textDepth, textOffsetDelta, textOffset);
-		break;
+		break;*/
 	}
 
 	// global controls
@@ -207,15 +210,17 @@ void a3demo_render(a3_DemoState const* demoState)
 	// choose render sub-routine for the current mode
 	switch (demoMode)
 	{
+		/*
 	case demoState_shading:
 		a3shading_render(demoState, demoState->demoMode_shading);
-		break;
+		break;*/
 	case demoState_pipelines:
 		a3pipelines_render(demoState, demoState->demoMode_pipelines);
 		break;
+		/*
 	case demoState_curves:
 		a3curves_render(demoState, demoState->demoMode_curves);
-		break;
+		break;*/
 	}
 
 

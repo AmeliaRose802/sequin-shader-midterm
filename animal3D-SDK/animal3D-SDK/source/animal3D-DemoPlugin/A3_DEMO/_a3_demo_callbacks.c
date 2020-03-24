@@ -490,7 +490,7 @@ A3DYLIBSYMBOL void a3demoCB_mouseWheel(a3_DemoState *demoState, a3i32 delta, a3i
 
 	switch (demoState->demoMode)
 	{
-	case demoState_shading:
+//	case demoState_shading:
 	case demoState_pipelines:
 		// can use this to change zoom
 		// zoom should be faster farther away

@@ -22,7 +22,7 @@
     <ProjectGuid>{FC188ACC-6F0D-40CF-BC09-BCB27053393B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>animal3DDemoPlayerApp</RootNamespace>
-    <WindowsTargetPlatformVersion>$(a3sdkversion)</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -65,9 +65,9 @@ extern "C"
 	// demo mode names
 	enum a3_DemoState_ModeName
 	{
-		demoState_shading,				// basic shading mode
+//		demoState_shading,				// basic shading mode
 		demoState_pipelines,			// different pipelines for exploration
-		demoState_curves,				// interpolation and curve drawing
+//		demoState_curves,				// interpolation and curve drawing
 
 		demoState_mode_max
 	};
