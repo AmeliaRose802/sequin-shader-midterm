@@ -918,6 +918,8 @@ void a3demo_loadTextures(a3_DemoState* demoState)
 			a3_DemoStateTexture texRampSM[1];
 			a3_DemoStateTexture texChecker[1];
 			a3_DemoStateTexture texNormalNoise[1];
+			a3_DemoStateTexture texNormalConvex[1];
+
 		};
 	} textureList = {
 		{
@@ -934,7 +936,7 @@ void a3demo_loadTextures(a3_DemoState* demoState)
 			{ demoState->tex_ramp_sm,		"tex:ramp-sm",		"../../../../resource/tex/sprite/celRamp_sm.png" },
 			{ demoState->tex_checker,		"tex:checker",		"../../../../resource/tex/sprite/checker.png" },
 			{ demoState->tex_normalNoise,	"tex:normalNoise",	"../../../../resource/tex/sequine/displacementmapnormals.png" }, 
-		//	{ demoState->tex_normalNoise,	"tex:normalConvex",	"../../../../resource/tex/sequine/convexNormalMap.png" }
+			{ demoState->tex_normalConvex,	"tex:normalConvex",	"../../../../resource/tex/sequine/convexNormalMap.png" }
 		}
 	};
 	const a3ui32 numTextures = sizeof(textureList) / sizeof(a3_DemoStateTexture);

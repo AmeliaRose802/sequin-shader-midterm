@@ -3,6 +3,7 @@
 
 // uniform sampler2D uImage0;
 uniform sampler2D uImage02;
+uniform sampler2D uImage03;
 uniform vec4 uAColor;
 uniform vec4 uBColor;
 uniform vec2 uSequinNum; //This does not work for reasons I can't be assed to figure out right now so I'm using a constant instead
@@ -41,7 +42,7 @@ float specularStrength = 5.0;
 float attenConst = .001;
 
 //Get defuse light for the given object
-vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize)
+vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize, vec4 normal)
 {
 	//This only works when you use the viewPos as the position. I have no idea why
 	vec4 lightRay = lightPos - viewPos;
@@ -53,7 +54,7 @@ vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize)
 
 	float atten = max((1 / (1 + attenConst*pow(dist, 2))), .4);
 
-	float diff_coef = max(dot(normalize(transformedNormal), n_lightRay), 0.0);
+	float diff_coef = max(dot(normalize(normal), n_lightRay), 0.0);
 
 	//Light size seems to be in the range of 0 to 100, but it is more useful as a number between 0 and 1
 	vec4 result = diff_coef * lightCol * (lightSize/100) * atten;
@@ -62,7 +63,7 @@ vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize)
 }
 
 //Get the specular coeffent
-float getSpecular(vec4 lightPos, float exponenet, vec2 center)
+float getSpecular(vec4 lightPos, float exponenet, vec2 center, vec4 normal)
 {
 
 	vec4 viewerDir_normalized = normalize(viewPos);
@@ -71,17 +72,16 @@ float getSpecular(vec4 lightPos, float exponenet, vec2 center)
 	//vec4 reflectDir = 2 * (dot(normalize(transformedNormal), n_lightRay)) * normalize(transformedNormal) - n_lightRay;
 
    // vec4 temp = transformedNormal + clamp(sin(float(uTime )), 0,.2) ;
-   vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
-   normalMap.z *= .4;
-    vec4 temp = transformedNormal + normalMap;
-	vec4 reflectDir = reflect(-n_lightRay, normalize(temp));
+   
+    
+
+	vec4 reflectDir = reflect(-n_lightRay, normalize(normal));
 
 	//Implementing Attenuaton
 	vec4 lightRay = lightPos - viewPos;
 	float dist = length(lightRay);
 
 	float atten = max((1 / (1 + attenConst*pow(dist, 2))), .4);
-
 
 	return pow(max(dot(viewerDir_normalized, reflectDir), 0.0), exponenet) * atten;
 }
@@ -138,12 +138,18 @@ void main()
  	vec4 allDefuse;	
 	vec4 allSpecular;	
 
+    vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
+   vec4 concaveNormal = ((texture(uImage03, coord.xy) * 2) - 1);
+
+   normalMap.z *= .4;
+    vec4 newNormal = transformedNormal + normalMap;
+
 	
 	//Get the sum of defuse and specular for all lights
 	for(int i = 0; i < uLightCt; i++)
 	{
-		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i]);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.4, center);
+		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i], newNormal);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.4, center, newNormal);
 	}
 
 
@@ -151,6 +157,7 @@ void main()
 	
 	//Add together all types of light for phong 
 	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular) * objectColor).xyz, 1.0);
-   // rtFragColor = objectColor;
+    
+
     outColor = rtFragColor;
 }
