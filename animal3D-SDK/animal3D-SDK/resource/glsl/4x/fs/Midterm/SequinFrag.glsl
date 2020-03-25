@@ -36,8 +36,8 @@ vec2 numSequines = vec2(50.0, 50.0);
 float sequinSize = 1.0; //TODO: This should be a uniform
 
 
-float ambent = .1;
-float specularStrength = 100.0;
+float ambent = .01;
+float specularStrength = 40.0;
 
 float attenConst = 0;
 
@@ -148,7 +148,7 @@ void main()
 
     vec4 concaveNormal = ((texture(uImage03, relCoord.xy) * 2) - 1);
 
-    concaveNormal.z *= -.1;
+    concaveNormal.z *= -.5;
     
     //normalMap * .8
     
@@ -160,14 +160,17 @@ void main()
 	for(int i = 0; i < uLightCt; i++)
 	{
 		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i], newNormal);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i] , center, newNormal);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i] * .4, center, newNormal);
 	}
 
 
-    vec4 objectColor = vec4(0.4, 0.0, 0.2, 1.0);
+    
 	
 	//Add together all types of light for phong 
-	rtFragColor = (vec4(((ambent + allDefuse  + allSpecular ) * objectColor).xyz, 1.0) ) * checker;
+	vec4 objectColor = vec4(.01, center, 1.0) * checker;
+	
+	//Add together all types of light for phong 
+	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular) * objectColor).xyz, 1.0);
     
     
     //rtFragColor = normalize(newNormal);
