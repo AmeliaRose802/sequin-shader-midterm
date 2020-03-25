@@ -7,37 +7,93 @@ uniform vec4 uBColor;
 uniform vec2 uSequinNum; //This does not work for reasons I can't be assed to figure out right now so I'm using a constant instead
 uniform float uASpecular;
 uniform float uBSpecular;
-uniform vec4 uLightCol;
 
+uniform vec4 uLightPos [4];
+uniform vec4 uLightCol [4];
+uniform float uLightSz [4];
+uniform float uLightSzInvSq [4];
+uniform double uTime;
+
+uniform int uLightCt;
+
+in vec4 texCoord;
+in vec4 viewPos;
+in vec4 transformedNormal;
 
 out vec4 rtFragColor;
-layout (location = 0) out vec4 outColor;
+
+vec4 n_lightRay;
+
+
+layout (location = 1) out vec4 outColor;
+layout (location = 2) out vec4 outNormal;
 
 in vec4 coord;
 
-vec2 numSequines = vec2(35.0, 35.0);
+vec2 numSequines = vec2(30.0, 30.0);
+float sequinSize = 50.0; //TODO: This should be a uniform
+
+
+float ambent = .3;
+float specularStrength = 1.5;
+
+float attenConst = .001;
+
+//Get defuse light for the given object
+vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize)
+{
+	//This only works when you use the viewPos as the position. I have no idea why
+	vec4 lightRay = lightPos - viewPos;
+
+	n_lightRay = normalize(lightRay);
+
+	//Implementing Attenuaton
+	float dist = length(lightRay);
+
+	float atten = max((1 / (1 + attenConst*pow(dist, 2))), .4);
+
+	float diff_coef = max(dot(normalize(transformedNormal), n_lightRay), 0.0);
+
+	//Light size seems to be in the range of 0 to 100, but it is more useful as a number between 0 and 1
+	vec4 result = diff_coef * lightCol * (lightSize/100) * atten;
+	
+	return result;
+}
+
+//Get the specular coeffent
+float getSpecular(vec4 lightPos, float exponenet, vec2 center)
+{
+
+	vec4 viewerDir_normalized = normalize(viewPos);
+
+	//Leaving this here to show how the math works
+	//vec4 reflectDir = 2 * (dot(normalize(transformedNormal), n_lightRay)) * normalize(transformedNormal) - n_lightRay;
+
+   // vec4 temp = transformedNormal + clamp(sin(float(uTime )), 0,.2) ;
+   vec4 temp = transformedNormal ;
+	vec4 reflectDir = reflect(-n_lightRay, normalize(temp));
+
+	//Implementing Attenuaton
+	vec4 lightRay = lightPos - viewPos;
+	float dist = length(lightRay);
+
+	float atten = max((1 / (1 + attenConst*pow(dist, 2))), .4);
+
+
+	return pow(max(dot(viewerDir_normalized, reflectDir), 0.0), exponenet) * atten;
+}
+
 
 vec2 getCenterOffset(){
     return (1.0 / (numSequines * 2.0));
 }
 
 vec2 getRemappedCenter(vec2 currentUV){
-    
+    currentUV.y += .005;
     //Bucket y 
     float newY = currentUV.y * numSequines.y;
     newY = ceil(newY);
     newY = newY / numSequines.y;
-    
-    
-    
-    
-    //Do stuff for x based on result of y
-    
-    /*
-    vec2 newUV = currentUV * numSequines; //.6 becomes 1.2 
-    newUV = ceil(newUV); // 1.2 becomes 2
-    newUV = newUV / numSequines; // 2 becomes 1
-   */
     
     float newX = currentUV.x * numSequines.x;
     newX = ceil(newX);
@@ -47,18 +103,8 @@ vec2 getRemappedCenter(vec2 currentUV){
     //Get every other row of sequines 
     float test = newY * numSequines.y;
     if(mod(test, 2.0) != 0.0 ){
-        
-        
-        
-        //Bucket the output for the second row. 
-        //.4 becomes . 75 
-        //.6 becomes .75 
-        //1.2 becomes 1.25
-        //.8 becomes 1.25
         float k = 1.0 / (numSequines.x * 2.0);
         float offsetX = (ceil((currentUV.x + k) * numSequines.x) / numSequines.x) - k;
-        
-        
         newX = offsetX;
     }
     
@@ -75,13 +121,32 @@ void main()
     vec2 uv = coord.xy;
     
     vec2 center = getRemappedCenter(uv);
-    
-	float radius = ((1.0 / numSequines.x) / 2.0);
+
+   // numSequines = (vec2(textureSize(uImage0)) / sequinSize); //Define number of sequines based on the size of the screen so they will be consistantly
+
+	float radius = ((1.0 / numSequines.x) / 2.0) * 1.05;
     
    
     float checker = step(length(uv-center), radius);
  
-     // Output to screen
-    rtFragColor = vec4(center * checker, 0.0, 1.0);
+
+ 
+ 	vec4 allDefuse;	
+	vec4 allSpecular;	
+
+	
+	//Get the sum of defuse and specular for all lights
+	for(int i = 0; i < uLightCt; i++)
+	{
+		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i]);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i], center);
+	}
+
+
+    vec4 objectColor = vec4(center * checker, 0.0, 1.0);
+	
+	//Add together all types of light for phong 
+	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular) * objectColor).xyz, 1.0);
+   // rtFragColor = objectColor;
     outColor = rtFragColor;
 }
