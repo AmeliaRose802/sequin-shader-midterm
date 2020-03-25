@@ -242,6 +242,16 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		demoState->tex_checker,
 	};
 
+
+	const a3_Texture* texture_normalMap[] = {
+		demoState->tex_normalNoise,
+		demoState->tex_normalNoise,
+		demoState->tex_normalNoise,
+		demoState->tex_normalNoise,
+		demoState->tex_normalNoise,
+	};
+
+
 	// temp texture atlas matrix pointers
 	const a3mat4* atlas[] = {
 		demoState->atlas_stone,
@@ -500,6 +510,7 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 		{
 			a3textureActivate(texture_dm[k], a3tex_unit00);
 			a3textureActivate(texture_sm[k], a3tex_unit01);
+			a3textureActivate(texture_normalMap[k], a3tex_unit02);
 			a3demo_drawModelLighting_bias_other(modelViewProjectionBiasMat_other.m, modelViewProjectionMat.m, modelViewMat.m, viewProjectionBiasMat_other.m, viewProjectionMat.m, viewMat.m, currentSceneObject->modelMat.m, currentDemoProgram, drawable[k], rgba4[k + 3].v);
 		}
 	}	break;

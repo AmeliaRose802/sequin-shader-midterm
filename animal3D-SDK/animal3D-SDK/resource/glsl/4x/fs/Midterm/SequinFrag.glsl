@@ -1,7 +1,8 @@
 #version 410
 
 
-uniform sampler2D uImage0;
+// uniform sampler2D uImage0;
+uniform sampler2D uImage02;
 uniform vec4 uAColor;
 uniform vec4 uBColor;
 uniform vec2 uSequinNum; //This does not work for reasons I can't be assed to figure out right now so I'm using a constant instead
@@ -35,7 +36,7 @@ float sequinSize = 50.0; //TODO: This should be a uniform
 
 
 float ambent = .3;
-float specularStrength = 1.5;
+float specularStrength = 5.0;
 
 float attenConst = .001;
 
@@ -70,7 +71,9 @@ float getSpecular(vec4 lightPos, float exponenet, vec2 center)
 	//vec4 reflectDir = 2 * (dot(normalize(transformedNormal), n_lightRay)) * normalize(transformedNormal) - n_lightRay;
 
    // vec4 temp = transformedNormal + clamp(sin(float(uTime )), 0,.2) ;
-   vec4 temp = transformedNormal ;
+   vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
+   normalMap.z *= .4;
+    vec4 temp = transformedNormal + normalMap;
 	vec4 reflectDir = reflect(-n_lightRay, normalize(temp));
 
 	//Implementing Attenuaton
@@ -82,6 +85,7 @@ float getSpecular(vec4 lightPos, float exponenet, vec2 center)
 
 	return pow(max(dot(viewerDir_normalized, reflectDir), 0.0), exponenet) * atten;
 }
+
 
 
 vec2 getCenterOffset(){
@@ -139,7 +143,7 @@ void main()
 	for(int i = 0; i < uLightCt; i++)
 	{
 		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i]);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i], center);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.4, center);
 	}
 
 

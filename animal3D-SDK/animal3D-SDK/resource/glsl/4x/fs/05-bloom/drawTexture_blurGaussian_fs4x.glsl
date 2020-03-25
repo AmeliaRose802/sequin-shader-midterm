@@ -31,11 +31,34 @@
 //	3) sample texture using Gaussian blur function and output result
 
 uniform sampler2D uImage00;
+uniform vec2 uSize;
+uniform vec2 uAxis;
 
 layout (location = 0) out vec4 rtFragColor;
+in vec4 passTexcoord;
+
+ //Using https://www.taylorpetrick.com/blog/post/convolution-part4 and outline shader as reference
+
+vec3 applyGauss(float[5] gauss, vec2 axis, sampler2D image, vec2 coord)
+{
+	vec2 size = 1.0 / textureSize(uImage00, 0);
+	vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
+
+	color += texture(image, (coord -  size*axis * 2)) * gauss[0];
+	color += texture(image, (coord -  size * axis)) * gauss[1];
+	color += texture(image, (coord)) * gauss[2];
+	color += texture(image, (coord +  size * axis)) * gauss[3];
+	color += texture(image, (coord +  size * axis * 2)) * gauss[4];
+
+	return color.xyz;
+
+}
+
+
 
 void main()
 {
-	// DUMMY OUTPUT: all fragments are OPAQUE MAGENTA
-	rtFragColor = vec4(1.0, 0.0, 1.0, 1.0);
+	float gaussTest[5] = float[5](.0625, .25, .375, .25, .0625);
+	
+	rtFragColor = vec4(applyGauss(gaussTest, uAxis , uImage00, passTexcoord.xy), 1.0);
 }

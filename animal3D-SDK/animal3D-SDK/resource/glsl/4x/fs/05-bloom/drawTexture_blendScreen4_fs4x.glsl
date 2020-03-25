@@ -30,12 +30,30 @@
 //	2) implement screen function with 4 inputs
 //	3) use screen function to sample input textures
 
-uniform sampler2D uImage00;
+uniform sampler2D uImage00; // Bright/Blur 1/2
+uniform sampler2D uImage01; // Bright/Blur 1/4
+uniform sampler2D uImage02; // Bright/Blur 1/8
+uniform sampler2D uImage03; //Composite 
+uniform sampler2D uImage04; //Gray gradient thing
+uniform sampler2D uImage05; // ???
+uniform sampler2D uImage06; //Shadow map or smth 
+uniform sampler2D uImage07; //Earth map texture
+
 
 layout (location = 0) out vec4 rtFragColor;
+in vec4 passTexcoord;
+
+vec4 screen(sampler2D a, sampler2D b, sampler2D c, sampler2D d)
+{
+vec4 output_bight = vec4(0.0);
+
+output_bight = 1 - (1 - texture(a, passTexcoord.xy))*(1 - texture(b, passTexcoord.xy))*(1-texture(c, passTexcoord.xy))*(1- texture(d, passTexcoord.xy));
+
+return output_bight;
+}
 
 void main()
 {
-	// DUMMY OUTPUT: all fragments are OPAQUE YELLOW
-	rtFragColor = vec4(1.0, 1.0, 0.0, 1.0);
+	rtFragColor = screen(uImage00, uImage01, uImage02, uImage03);
+	//rtFragColor = texture(uImage02, passTexcoord.xy);
 }

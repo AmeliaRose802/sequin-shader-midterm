@@ -116,7 +116,7 @@ extern "C"
 
 		demoStateMaxCount_texture = 16,
 
-		demoStateMaxCount_framebuffer = 16,
+		demoStateMaxCount_framebuffer = 32,
 	};
 
 	
@@ -382,7 +382,8 @@ extern "C"
 					tex_stone_dm[1],
 					tex_ramp_dm[1],
 					tex_ramp_sm[1],
-					tex_checker[1];
+					tex_checker[1],
+					tex_normalNoise[1];
 			};
 		};
 
