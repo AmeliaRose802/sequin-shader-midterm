@@ -32,12 +32,12 @@ layout (location = 2) out vec4 outNormal;
 
 in vec4 coord;
 
-vec2 numSequines = vec2(30.0, 30.0);
-float sequinSize = 50.0; //TODO: This should be a uniform
+vec2 numSequines = vec2(50.0, 50.0);
+float sequinSize = 1.0; //TODO: This should be a uniform
 
 
-float ambent = .2;
-float specularStrength = 30.0;
+float ambent = .1;
+float specularStrength = 100.0;
 
 float attenConst = 0;
 
@@ -93,7 +93,7 @@ vec2 getCenterOffset(){
 }
 
 vec2 getRemappedCenter(vec2 currentUV){
-    currentUV.y += .005;
+    //currentUV.y += .005;
     //Bucket y 
     float newY = currentUV.y * numSequines.y;
     newY = ceil(newY);
@@ -128,7 +128,7 @@ void main()
 
    // numSequines = (vec2(textureSize(uImage0)) / sequinSize); //Define number of sequines based on the size of the screen so they will be consistantly
 
-	float radius = ((1.0 / numSequines.x) / 2.0) * 1.05;
+	float radius = ((1.0 / numSequines.x) / 2.0);
     
    
     float checker = step(length(uv-center), radius);
@@ -148,11 +148,11 @@ void main()
 
     vec4 concaveNormal = ((texture(uImage03, relCoord.xy) * 2) - 1);
 
-    concaveNormal.z *= normalMap.z;
-    //concaveNormal.x += 1.0;
-
-    normalMap.z *= .4;
-    vec4 newNormal = transformedNormal  + concaveNormal;
+    concaveNormal.z *= -.1;
+    
+    //normalMap * .8
+    
+    vec4 newNormal = transformedNormal +  normalize(concaveNormal) + normalize(normalMap);
 
     
 
@@ -160,17 +160,17 @@ void main()
 	for(int i = 0; i < uLightCt; i++)
 	{
 		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i], newNormal);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.3, center, newNormal);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i] , center, newNormal);
 	}
 
 
-    vec4 objectColor = vec4(0.4, 0.0, 0.2, 1.0) * checker;
+    vec4 objectColor = vec4(0.4, 0.0, 0.2, 1.0);
 	
 	//Add together all types of light for phong 
-	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular * 2.0) * objectColor).xyz, 1.0);
+	rtFragColor = (vec4(((ambent + allDefuse  + allSpecular ) * objectColor).xyz, 1.0) ) * checker;
     
     
-    //rtFragColor = normalize(concaveNormal);
+    //rtFragColor = normalize(newNormal);
 
-    outColor = rtFragColor;
+   // outColor = newNormal;
 }
