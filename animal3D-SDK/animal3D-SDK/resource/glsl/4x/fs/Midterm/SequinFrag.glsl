@@ -36,10 +36,10 @@ vec2 numSequines = vec2(30.0, 30.0);
 float sequinSize = 50.0; //TODO: This should be a uniform
 
 
-float ambent = .3;
-float specularStrength = 5.0;
+float ambent = .2;
+float specularStrength = 30.0;
 
-float attenConst = .001;
+float attenConst = 0;
 
 //Get defuse light for the given object
 vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize, vec4 normal)
@@ -132,6 +132,8 @@ void main()
     
    
     float checker = step(length(uv-center), radius);
+
+    float secondChecker = step(radius/10, length(uv-center));
  
 
  
@@ -139,25 +141,36 @@ void main()
 	vec4 allSpecular;	
 
     vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
-   vec4 concaveNormal = ((texture(uImage03, coord.xy) * 2) - 1);
 
-   normalMap.z *= .4;
-    vec4 newNormal = transformedNormal + normalMap;
+    //Map concave normal to size of sequine
+    vec2 lowCorner = center - radius;
+    vec2 relCoord = (coord.xy - lowCorner) * numSequines;
 
-	
-	//Get the sum of defuse and specular for all lights
+    vec4 concaveNormal = ((texture(uImage03, relCoord.xy) * 2) - 1);
+
+    concaveNormal.z *= normalMap.z;
+    //concaveNormal.x += 1.0;
+
+    normalMap.z *= .4;
+    vec4 newNormal = transformedNormal  + concaveNormal;
+
+    
+
+    //Get the sum of defuse and specular for all lights
 	for(int i = 0; i < uLightCt; i++)
 	{
 		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i], newNormal);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.4, center, newNormal);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i]*.3, center, newNormal);
 	}
 
 
-    vec4 objectColor = vec4(center * checker, 0.0, 1.0);
+    vec4 objectColor = vec4(0.4, 0.0, 0.2, 1.0) * checker;
 	
 	//Add together all types of light for phong 
-	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular) * objectColor).xyz, 1.0);
+	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular * 2.0) * objectColor).xyz, 1.0);
     
+    
+    //rtFragColor = normalize(concaveNormal);
 
     outColor = rtFragColor;
 }
