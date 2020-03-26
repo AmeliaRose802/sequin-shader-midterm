@@ -479,9 +479,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 				drawPhong_multi_forward_mrt_fs[1];
 			// Midterm
 			a3_DemoStateShader
-				drawSequen[1],
-				drawSparkles[1],
-				drawFinalOutput[1];
+				drawSequen[1];
 		};
 	} shaderList = {
 		{
@@ -545,9 +543,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			// 07-curves
 			{ { { 0 },	"shdr-fs:draw-Phong-mul-fwd-mrt",	a3shader_fragment,	1,{ A3_DEMO_FS"07-curves/drawPhong_multi_forward_mrt_fs4x.glsl" } } },
 			//Midterm
-			{ { { 0 },  "shdr-fs:draw-sequen",				a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/SequinFrag.glsl" } }	},
-			{ { { 0 },  "shdr-fs:draw-final-output",		a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/FinalOutput.glsl" } } },
-			{ { { 0 },  "shdr-fs:draw-sparkles",			a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/SparklesPostProc.glsl" } }	},
+			{ { { 0 },  "shdr-fs:draw-sequen",				a3shader_fragment,	1,{ A3_DEMO_FS"Midterm/SequinFrag.glsl" } }	}
 		}
 	};
 	a3_DemoStateShader *const shaderListPtr = (a3_DemoStateShader *)(&shaderList), *shaderPtr;
@@ -735,16 +731,6 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
 	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSequen->shader);
 
-	currentDemoProg = demoState->prog_drawSparkelsPostProc;
-	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-post");
-	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
-	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawSparkles->shader);
-
-	currentDemoProg = demoState->prog_drawFinalOutput;
-	a3shaderProgramCreate(currentDemoProg->program, "prog:draw-Sequen-final");
-	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.passCoordinates->shader);
-	a3shaderProgramAttachShader(currentDemoProg->program, shaderList.drawFinalOutput->shader);
-
 	// activate a primitive for validation
 	// makes sure the specified geometry can draw using programs
 	// good idea to activate the drawable with the most attributes
@@ -773,8 +759,8 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 
 	//Midterm stuff
 	//Create data arrays
-	a3f32 aColor[4] = { 1.0, .5, .5, 1.0 };
-	a3f32 bColor[4] = { 0.5, 1.0, .5, 1.0 };
+	a3f32 aColor[4] = { 0.4f, 0, 0.0f, 1.0 };
+	a3f32 bColor[4] = { 0.0f, 0.8f, 0.0f, 1.0 };
 	a3f32 mousePos[2] = { (a3f32)demoState->mouse->x, (a3f32)demoState->mouse->y };//Using existing mouse object and getting its position
 	a3f32 sequinRadius[1] = { 1.0 };
 	a3f32 specularA[1] = { .5f };

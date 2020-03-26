@@ -340,9 +340,9 @@ void a3pipelines_render(a3_DemoState const* demoState, a3_Demo_Pipelines const* 
 	a3vec4 lightPos[demoStateMaxCount_lightObject];
 	a3vec4 lightCol[demoStateMaxCount_lightObject];
 
-	//Create data arrays
-	a3vec4 aColor[1] = { 1.0, .5, .5, 1.0 };
-	a3vec4 bColor[1] = { 0.5, 1.0, .5, 1.0 };
+	//These are actually setting the color of the sequines
+	a3vec4 aColor[1] = { .7f, .45f, 0, 1.0};
+	a3vec4 bColor[1] = { .7f, .45f, 0, 1.0 };
 
 	
 	a3vec2 mousePos [1] = { (float)demoState->mouse->x, (float)demoState->mouse->y };//Using existing mouse object and getting its position

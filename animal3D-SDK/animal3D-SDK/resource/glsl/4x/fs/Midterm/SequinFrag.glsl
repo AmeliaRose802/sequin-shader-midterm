@@ -1,53 +1,48 @@
 #version 410
 
 
-// uniform sampler2D uImage0;
+// Uniforms
 uniform sampler2D uImage02;
 uniform sampler2D uImage03;
 uniform vec4 uAColor;
 uniform vec4 uBColor;
-uniform vec2 uSequinNum; //This does not work for reasons I can't be assed to figure out right now so I'm using a constant instead
-uniform float uASpecular;
-uniform float uBSpecular;
+uniform vec2 uSequinNum; 
 
+
+//Lighting
 uniform vec4 uLightPos [4];
 uniform vec4 uLightCol [4];
 uniform float uLightSz [4];
 uniform float uLightSzInvSq [4];
+uniform int uLightCt;
 uniform double uTime;
 
-uniform int uLightCt;
-
-in vec4 texCoord;
+//Passed from Vertex shader
 in vec4 viewPos;
 in vec4 transformedNormal;
+in vec4 coord;
 
 out vec4 rtFragColor;
 
-vec4 n_lightRay;
 
+//Setting varibles 
+//TODO: These should all be uniforms
+vec2 numSequines = vec2(50.0, 50.0); //How many sequines should be on each surface
+float ambent = .4; //How much ambent light 
+float specularStrength = 4.0; //Higher value means brighter specularity 
+float specularSpreadModifier = .3; //Lower value is more spread
+float attenConst = 0; //How much should light decrease over distance 
+float sequineConcavity = 1.5;
+float sequineSizeModifier = 1.0;
+float normalMapStrength = .8;
 
-layout (location = 1) out vec4 outColor;
-layout (location = 2) out vec4 outNormal;
-
-in vec4 coord;
-
-vec2 numSequines = vec2(50.0, 50.0);
-float sequinSize = 1.0; //TODO: This should be a uniform
-
-
-float ambent = .01;
-float specularStrength = 40.0;
-
-float attenConst = 0;
 
 //Get defuse light for the given object
 vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize, vec4 normal)
 {
-	//This only works when you use the viewPos as the position. I have no idea why
 	vec4 lightRay = lightPos - viewPos;
 
-	n_lightRay = normalize(lightRay);
+	vec4 n_lightRay = normalize(lightRay);
 
 	//Implementing Attenuaton
 	float dist = length(lightRay);
@@ -65,36 +60,27 @@ vec4 getLight(vec4 lightCol, vec4 lightPos, float lightSize, vec4 normal)
 //Get the specular coeffent
 float getSpecular(vec4 lightPos, float exponenet, vec2 center, vec4 normal)
 {
-
-	vec4 viewerDir_normalized = normalize(viewPos);
-
-	//Leaving this here to show how the math works
-	//vec4 reflectDir = 2 * (dot(normalize(transformedNormal), n_lightRay)) * normalize(transformedNormal) - n_lightRay;
-
-   // vec4 temp = transformedNormal + clamp(sin(float(uTime )), 0,.2) ;
    
+	vec4 viewerDir_normalized = normalize(viewPos);
     
-
-	vec4 reflectDir = reflect(-n_lightRay, normalize(normal));
-
 	//Implementing Attenuaton
 	vec4 lightRay = lightPos - viewPos;
+
+     vec4 n_lightRay = normalize(lightRay);
+
+     vec4 reflectDir = reflect(-n_lightRay, normalize(normal));
+
 	float dist = length(lightRay);
 
 	float atten = max((1 / (1 + attenConst*pow(dist, 2))), .4);
 
-	return pow(max(dot(viewerDir_normalized, reflectDir), 0.0), exponenet) * atten;
+	return pow(max(dot(viewerDir_normalized, reflectDir), 0.0), exponenet);
 }
 
-
-
-vec2 getCenterOffset(){
-    return (1.0 / (numSequines * 2.0));
-}
-
+//Remap the UV to find the center of the circle that this coordnate is in 
 vec2 getRemappedCenter(vec2 currentUV){
-    //currentUV.y += .005;
-    //Bucket y 
+
+    //Remap x and y 
     float newY = currentUV.y * numSequines.y;
     newY = ceil(newY);
     newY = newY / numSequines.y;
@@ -106,74 +92,75 @@ vec2 getRemappedCenter(vec2 currentUV){
     
     //Get every other row of sequines 
     float test = newY * numSequines.y;
-    if(mod(test, 2.0) != 0.0 ){
-        float k = 1.0 / (numSequines.x * 2.0);
-        float offsetX = (ceil((currentUV.x + k) * numSequines.x) / numSequines.x) - k;
-        newX = offsetX;
-    }
+    float tester = step(mod(test, 2.0), 0.0);
     
+    float k = 1.0 / (numSequines.x * 2.0);
+    float offsetX = (ceil((currentUV.x + k) * numSequines.x) / numSequines.x) - k;
+    newX = (offsetX * tester) + (newX * abs(1-tester));
     
-    return vec2(newX, newY) - getCenterOffset();
+
+    //Offset the corner position to find the center of this circle
+    vec2 offset = (1.0 / (numSequines * 2.0));
+
+    return vec2(newX, newY) - offset;
 }
 
+vec2 remapCoordToCircle(vec2 uv, vec2 center, float radius){
+    vec2 lowCorner = center - radius;
+    return (uv - lowCorner) * numSequines; 
+}
 
 
 void main()
 {
-	
-	// Normalized pixel coordinates (from 0 to 1)
     vec2 uv = coord.xy;
     
+    //Find center of the circle that this pixel falls into
     vec2 center = getRemappedCenter(uv);
-
-   // numSequines = (vec2(textureSize(uImage0)) / sequinSize); //Define number of sequines based on the size of the screen so they will be consistantly
-
-	float radius = ((1.0 / numSequines.x) / 2.0);
     
+    //Get size of each sequine
+	float radius = ((1.0 / numSequines.x) / 2.0) * sequineSizeModifier;
    
-    float checker = step(length(uv-center), radius);
-
-    float secondChecker = step(radius/10, length(uv-center));
  
-
- 
- 	vec4 allDefuse;	
-	vec4 allSpecular;	
-
+    //This normal map adds variation to the angles of each sequine
     vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
 
-    //Map concave normal to size of sequine
-    vec2 lowCorner = center - radius;
-    vec2 relCoord = (coord.xy - lowCorner) * numSequines;
+    
+    float side =  step(normalMap.z, .2);
+    vec4 objectColor = uAColor;
 
+    //Color the sequine diffrently based on weather it is on the A or B side
+    objectColor = uAColor * side + uBColor* (1- side);
+   
+    //Map concave normal to size of sequine
+    vec2 relCoord = remapCoordToCircle(uv, center, radius);
+
+    //This normal adds concavity to the normals of each indivual sequine
     vec4 concaveNormal = ((texture(uImage03, relCoord.xy) * 2) - 1);
 
-    concaveNormal.z *= -.5;
+    //Modify the concavity (z value) of each indivual sequine. Negivitve values make it concave, positive convex
+    concaveNormal.z *= sequineConcavity;
     
-    //normalMap * .8
+    //Modify the normal for this pixel based on the normal maps. 
+    vec4 newNormal = transformedNormal +  concaveNormal + normalMap * normalMapStrength;
     
-    vec4 newNormal = transformedNormal +  normalize(concaveNormal) + normalize(normalMap);
-
-    
+    //Calculate Lighting
+ 	vec4 allDefuse;	
+	vec4 allSpecular;	
 
     //Get the sum of defuse and specular for all lights
 	for(int i = 0; i < uLightCt; i++)
 	{
 		allDefuse += getLight(uLightCol[i], uLightPos[i], uLightSz[i], newNormal);
-		allSpecular += getSpecular(uLightPos[i], uLightSz[i] * .4, center, newNormal);
+		allSpecular += getSpecular(uLightPos[i], uLightSz[i] * specularSpreadModifier , center, newNormal);
 	}
 
-
-    
+	//Check if this pixel is within the circle
+    float checker = step(length(uv-center), radius);
+	
 	
 	//Add together all types of light for phong 
-	vec4 objectColor = vec4(.01, center, 1.0) * checker;
-	
-	//Add together all types of light for phong 
-	rtFragColor = vec4(((ambent + allDefuse + specularStrength * allSpecular) * objectColor).xyz, 1.0);
-    
-    
-    //rtFragColor = normalize(newNormal);
+	rtFragColor = vec4(((ambent + allDefuse + allSpecular * specularStrength) * objectColor * checker).xyz, 1.0);
 
-   // outColor = newNormal;
+   // rtFragColor = allSpecular * specularStrength * checker;
 }

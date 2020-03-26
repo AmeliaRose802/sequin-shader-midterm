@@ -248,9 +248,7 @@
     <None Include="..\..\..\resource\glsl\4x\fs\drawColorUnif_fs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\gs\07-curves\drawCurveSegment_gs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\gs\07-curves\drawOverlays_tangents_wireframe_gs4x.glsl" />
-    <None Include="..\..\..\resource\glsl\4x\fs\Midterm\FinalOutput.glsl" />
     <None Include="..\..\..\resource\glsl\4x\fs\Midterm\SequinFrag.glsl" />
-    <None Include="..\..\..\resource\glsl\4x\fs\Midterm\SparklesPostProc.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\02-shading\passLightingData_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\02-shading\passTexcoord_transform_vs4x.glsl" />
     <None Include="..\..\..\resource\glsl\4x\vs\04-multipass\passLightingData_shadowCoord_transform_vs4x.glsl" />

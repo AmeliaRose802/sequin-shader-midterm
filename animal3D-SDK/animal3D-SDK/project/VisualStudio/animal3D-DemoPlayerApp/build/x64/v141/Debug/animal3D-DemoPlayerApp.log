@@ -1,0 +1,2 @@
+﻿  main_win.c
+LINK : fatal error LNK1104: cannot open file 'animal3D-DemoPlayerApp-Platform.lib'
