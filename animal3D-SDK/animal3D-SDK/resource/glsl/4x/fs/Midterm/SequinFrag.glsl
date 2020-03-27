@@ -126,7 +126,7 @@ void main()
     vec4 normalMap = ((texture(uImage02, center) * 2) - 1);
 
     
-    float side =  step(normalMap.z, .2);
+    float side =  step(normalMap.z, .1);
     vec4 objectColor = uAColor;
 
     //Color the sequine diffrently based on weather it is on the A or B side
@@ -142,6 +142,9 @@ void main()
     concaveNormal.z *= sequineConcavity;
     
     //Modify the normal for this pixel based on the normal maps. 
+
+    //vec4 newNormal = transformedNormal;
+
     vec4 newNormal = transformedNormal +  concaveNormal + normalMap * normalMapStrength;
     
     //Calculate Lighting
@@ -161,6 +164,4 @@ void main()
 	
 	//Add together all types of light for phong 
 	rtFragColor = vec4(((ambent + allDefuse + allSpecular * specularStrength) * objectColor * checker).xyz, 1.0);
-
-   // rtFragColor = allSpecular * specularStrength * checker;
 }
