@@ -47,7 +47,7 @@ uniform sampler2D screenTexture;
 //Stuff we already have
 layout (location = 0) out vec4 rtFragColor;
 layout (location = 3) out vec4 texCoord;
-in vec4 coord;
+in vec4 passTexcoord;
 
 																								// Sobel Edge Detection Filter
 																								// GLSL Fragment Shader
@@ -76,7 +76,7 @@ void make_kernel(inout vec4 kernel_array[9], sampler2D image, vec2 coordinate)
 void main(void) 
 {
 	vec4 kernel_array[9]; //Array of 9 vec4 - potentially represents a kernel
-	make_kernel( kernel_array, uImage1, coord.xy );
+	make_kernel( kernel_array, uImage1, passTexcoord.xy );
 
 	//creating the horizontal and vertical gradient maps
 	vec4 sobel_edge_h = kernel_array[2] + (2.0*kernel_array[5]) + kernel_array[8] - (kernel_array[0] + (2.0*kernel_array[3]) + kernel_array[6]);
@@ -86,7 +86,7 @@ void main(void)
 	vec4 sobel_final = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
 
 	//getiing the on-screen image
-	vec4 screen_Sample = texture(screenTexture, coord.xy);
+	vec4 screen_Sample = texture(screenTexture, passTexcoord.xy);
 
 	float outlineThickness = 10.0f;
 
