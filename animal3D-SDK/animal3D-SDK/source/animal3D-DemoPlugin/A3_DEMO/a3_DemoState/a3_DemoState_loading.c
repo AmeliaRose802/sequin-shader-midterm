@@ -534,7 +534,7 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 			// 05-bloom
 			{ { { 0 },	"shdr-fs:draw-tex-bright",			a3shader_fragment,	1,{ A3_DEMO_FS"05-bloom/drawTexture_brightPass_fs4x.glsl" } } },
 			{ { { 0 },	"shdr-fs:draw-tex-blur",			a3shader_fragment,	1,{ A3_DEMO_FS"05-bloom/drawTexture_blurGaussian_fs4x.glsl" } } },
-			{ { { 0 },	"shdr-fs:draw-tex-blend4",			a3shader_fragment,	1,{ A3_DEMO_FS"05-bloom/sdrawTexture_blendScreen4_fs4x.glsl" } } },
+			{ { { 0 },	"shdr-fs:draw-tex-blend4",			a3shader_fragment,	1,{ A3_DEMO_FS"05-bloom/drawTexture_blendScreen4_fs4x.glsl" } } },
 			// 06-deferred
 			{ { { 0 },	"shdr-fs:draw-lightingdata",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawLightingData_fs4x.glsl" } } },
 			{ { { 0 },	"shdr-fs:draw-Phong-multi-def",		a3shader_fragment,	1,{ A3_DEMO_FS"06-deferred/e/drawPhong_multi_deferred_fs4x.glsl" } } },

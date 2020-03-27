@@ -42,7 +42,7 @@ void main()
 
 	float lum = dot(color.rgb, vec3(0.299, 0.587, 0.144));
 
-	color = color * 4.0 * smoothstep(0.5, 1.7, lum);
+	color = color * 40.0 * smoothstep(0.5, 1.7, lum);
 
 	color.a = 1.0;
 

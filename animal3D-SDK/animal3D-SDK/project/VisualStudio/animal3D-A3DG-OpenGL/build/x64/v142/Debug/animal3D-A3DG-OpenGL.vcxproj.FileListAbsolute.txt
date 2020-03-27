@@ -1,2 +1,4 @@
 C:\Users\Amelia\Desktop\sequin-shader-midterm\animal3D-SDK\animal3D-SDK\lib\x64\v142\Debug\animal3D-A3DG-OpenGL.pdb
 C:\Users\Amelia\Desktop\sequin-shader-midterm\animal3D-SDK\animal3D-SDK\project\VisualStudio\animal3D-A3DG-OpenGL\build\x64\v142\Debug\animal3D-A3DG-OpenGL.pdb
+D:\Graphics_Files\sequin-shader-midterm\animal3D-SDK\animal3D-SDK\lib\x64\v142\Debug\animal3D-A3DG-OpenGL.pdb
+D:\Graphics_Files\sequin-shader-midterm\animal3D-SDK\animal3D-SDK\project\VisualStudio\animal3D-A3DG-OpenGL\build\x64\v142\Debug\animal3D-A3DG-OpenGL.pdb
